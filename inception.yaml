@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: inception
+spec:
+  containers:
+  - name: seed
+    image: bitnami/minideb-extras:jessie
+    command: ["sleep", "3600"]
+    volumeMounts:
+    - name: seed
+      mountPath: /seed
+  restartPolicy: Never
+  volumes:
+  - name: seed
+    persistentVolumeClaim:
+      claimName: seed

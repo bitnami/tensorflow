@@ -1,0 +1,50 @@
+FROM bitnami/minideb:jessie
+
+RUN install_packages python curl ca-certificates python-pip \
+        build-essential \
+        curl \
+        git \
+        libfreetype6-dev \
+        libpng12-dev \
+        libzmq3-dev \
+        pkg-config \
+        python-dev \
+        python-numpy \
+        python-pip \
+        software-properties-common \
+        swig \
+        zip \
+		unzip \
+        zlib1g-dev \
+        libcurl3-dev
+
+RUN pip install --upgrade pip
+
+RUN pip install enum34 futures mock six && \
+    pip install --pre 'protobuf>=3.0.0a3' && \
+    pip install -i https://testpypi.python.org/simple --pre grpcio
+
+RUN echo "deb http://httpredir.debian.org/debian jessie-backports main" > /etc/apt/sources.list.d/backports.list && install_packages -t jessie-backports openjdk-8-jdk-headless
+
+# Running bazel inside a `docker build` command causes trouble, cf:
+#   https://github.com/bazelbuild/bazel/issues/134
+# The easiest solution is to set up a bazelrc file forcing --batch.
+RUN echo "startup --batch" >>/root/.bazelrc
+# Similarly, we need to workaround sandboxing issues:
+#   https://github.com/bazelbuild/bazel/issues/418
+RUN echo "build --spawn_strategy=standalone --genrule_strategy=standalone" \
+    >>/root/.bazelrc
+ENV BAZELRC /root/.bazelrc
+# Install the most recent bazel release.
+ENV BAZEL_VERSION 0.4.5
+WORKDIR /
+RUN mkdir /bazel && \
+    cd /bazel && \
+    curl -fSsL -O https://github.com/bazelbuild/bazel/releases/download/$BAZEL_VERSION/bazel-$BAZEL_VERSION-installer-linux-x86_64.sh && \
+    curl -fSsL -o /bazel/LICENSE.txt https://raw.githubusercontent.com/bazelbuild/bazel/master/LICENSE.txt && \
+    chmod +x bazel-*.sh && \
+    ./bazel-$BAZEL_VERSION-installer-linux-x86_64.sh && \
+    cd / && \
+    rm -f /bazel/bazel-$BAZEL_VERSION-installer-linux-x86_64.sh
+
+CMD ["/bin/bash"]

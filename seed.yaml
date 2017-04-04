@@ -1,0 +1,32 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: seed
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 500Mi
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: seed-inception
+spec:
+  template:
+    metadata:
+      name: seed-inception
+    spec:
+      containers:
+      - name: seed
+        image: bitnami/minideb-extras:jessie
+        command: ["curl", "-o", "/seed/inception-v3-2016-03-01.tar.gz" ,"http://download.tensorflow.org/models/image/imagenet/inception-v3-2016-03-01.tar.gz"]
+        volumeMounts:
+        - name: seed
+          mountPath: /seed
+      restartPolicy: Never
+      volumes:
+      - name: seed
+        persistentVolumeClaim:
+          claimName: seed
