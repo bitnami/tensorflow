@@ -1,5 +1,5 @@
-kind: PersistentVolumeClaim
 apiVersion: v1
+kind: PersistentVolumeClaim
 metadata:
   name: seed
 spec:
@@ -21,7 +21,8 @@ spec:
       containers:
       - name: seed
         image: bitnami/minideb-extras:jessie
-        command: ["curl", "-o", "/seed/inception-v3-2016-03-01.tar.gz" ,"http://download.tensorflow.org/models/image/imagenet/inception-v3-2016-03-01.tar.gz"]
+        command: ["/bin/sh"]
+        args: ["-c", "curl -o /seed/inception-v3-2016-03-01.tar.gz http://download.tensorflow.org/models/image/imagenet/inception-v3-2016-03-01.tar.gz && cd /seed/ && tar -xzf inception-v3-2016-03-01.tar.gz && rm inception-v3-2016-03-01.tar.gz"]
         volumeMounts:
         - name: seed
           mountPath: /seed
