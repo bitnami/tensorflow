@@ -35,6 +35,5 @@ In the container, follow the official [instructions](http://tensorflow.github.io
 
 ```
 $ cd chart
-$ helm package tensorflow
-$ helm install tensorflow-0.3.4.tar.gz
+$ helm install tensorflow/
 ```
