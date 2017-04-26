@@ -8,6 +8,11 @@ spec:
   containers:
   - name: seed
     image: "{{ .Values.image }}"
+    readinessProbe:
+      tcpSocket:
+        port: {{ .Values.serverPort }}
+      initialDelaySeconds: 15
+      timeoutSeconds: 1
     volumeMounts:
     - name: seed
       mountPath: /seed

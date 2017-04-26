@@ -2,6 +2,7 @@
 ## ref: https://hub.docker.com/r/tompizmor/tensorflow-inception-v3/tags/
 ##
 image: tompizmor/tensorflow-inception-v3:latest
+serverPort: 9000
 
 ## Specify a imagePullPolicy
 ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'

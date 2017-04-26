@@ -5,10 +5,9 @@ TensorFlow Serving is an open-source software library for serving machine learni
 ## TL;DR;
 
 ```console
-$ https://github.com/tompizmor/tensorflow 
+$ https://github.com/tompizmor/tensorflow
 $ cd chart
-$ helm package tensorflow
-$ helm install tensorflow-0.3.4.tgz
+$ helm install tensorflow/
 ```
 
 ## Introduction
@@ -27,7 +26,7 @@ Download the latest release of the chart from the [releases](../../../releases) 
 Alternatively, clone the repo if you wish to use the development snapshot:
 
 ```console
-$ git clone https://github.com/kubernetes/charts.git
+$ git clone https://github.com/tompizmor/tensorflow.git
 ```
 
 ## Installing the Chart
@@ -35,7 +34,7 @@ $ git clone https://github.com/kubernetes/charts.git
 To install the chart with the release name `my-release`:
 
 ```console
-$ helm install --name my-release tensorflow-0.3.4.tgz
+$ helm install --name my-release tensorflow/
 ```
 
 *Replace the `x.x.x` placeholder with the chart release version.*
@@ -50,6 +49,11 @@ To uninstall/delete the `my-release` deployment:
 
 ```console
 $ helm delete my-release
+```
+You can check your releases with:
+
+```console
+$ helm list
 ```
 
 The command removes all the Kubernetes components associated with the chart and deletes the release.
@@ -71,14 +75,13 @@ Specify each parameter using the `--set key=value[,key=value]` argument to `helm
 ```console
 $ helm install --name my-release \
   --set serviceType=NodePort \
-    tensorflow-0.3.4.tgz
+    tensorflow/
 ```
 
 Alternatively, a YAML file that specifies the values for the above parameters can be provided while installing the chart. For example,
 
 ```console
-$ helm install --name my-release -f values.yaml tensorflow-0.3.4.tgz
+$ helm install --name my-release -f values.yaml tensorflow/
 ```
 
 > **Tip**: You can use the default [values.yaml](values.yaml)
-
