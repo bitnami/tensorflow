@@ -8,7 +8,6 @@ spec:
   containers:
   - name: seed
     image: "{{ .Values.image }}"
-    command: ["sleep", "3600"]
     volumeMounts:
     - name: seed
       mountPath: /seed

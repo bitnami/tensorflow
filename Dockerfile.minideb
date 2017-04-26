@@ -89,5 +89,8 @@ RUN mkdir /bazel && \
     bazel build --compilation_mode opt --strip=always tensorflow_serving/... && \
     rm -rf $FILES_TO_DELETE
 
+COPY rootfs /
 WORKDIR /serving
+
+ENTRYPOINT ["/entrypoint.sh"]
 CMD ["bazel-bin/tensorflow_serving/model_servers/tensorflow_model_server", "--port=9000", "--model_name=inception", "--model_base_path=inception-export"]
