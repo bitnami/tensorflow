@@ -1,0 +1,23 @@
+## Tensorflow image version
+## ref: https://hub.docker.com/r/tompizmor/tensorflow-inception-v3/tags/
+##
+image: tompizmor/tensorflow-inception-v3:latest
+
+## Specify a imagePullPolicy
+## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
+## ref: http://kubernetes.io/docs/user-guide/images/#pre-pulling-images
+##
+# imagePullPolicy:
+
+## Kubernetes configuration
+## For minikube, set this to NodePort, elsewhere use LoadBalancer
+##
+serviceType: LoadBalancer
+
+## Configure resource requests and limits
+## ref: http://kubernetes.io/docs/user-guide/compute-resources/
+##
+resources:
+  requests:
+    memory: 1g
+    cpu: 300m

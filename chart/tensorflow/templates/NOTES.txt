@@ -1,0 +1,8 @@
+1. Connect to tensorflow inception v3 pod 
+
+kubectl get pods
+kubectl exec inception -- bash
+
+2. Run query versus the server
+
+bazel-bin/tensorflow_serving/example/inception_client --server=localhost:9000 --image=/path/to/your-image.jpg
