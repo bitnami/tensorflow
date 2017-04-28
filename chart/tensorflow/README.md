@@ -66,9 +66,6 @@ The following tables lists the configurable parameters of the TensorFlow Incepti
 | -------------------------------      | -------------------------------          | ---------------------------------------------------------- |
 | `image`                              | Tensorflow image                         | `tompizmor/tensorflow-inception-v3:{VERSION}`              |
 | `imagePullPolicy`                    | Image pull policy                        | `Always` if `image` tag is `latest`, else `IfNotPresent`   |
-| `serviceType`                        | Kubernetes Service type                  | `LoadBalancer`                                             |
-| `persistence.enabled`                | Enable persistence using PVC             | `true`                                                     |
-
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example,
 
