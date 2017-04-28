@@ -1,0 +1,15 @@
+description: Open-source software library for serving machine learning models
+engine: gotpl
+home: https://tensorflow.github.io/serving/
+keywords:
+- tensorflow
+- machine
+- learning
+- library
+maintainers:
+- email: containers@bitnami.com
+  name: Bitnami
+name: tensorflow
+sources:
+- https://github.com/tompizmor/tensorflow
+version: 0.3.4

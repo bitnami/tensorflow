@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: inception
+  labels:
+    release: inception
+spec:
+  containers:
+  - name: seed
+    image: "{{ .Values.image }}"
+    readinessProbe:
+      tcpSocket:
+        port: {{ .Values.serverPort }}
+      initialDelaySeconds: 15
+      timeoutSeconds: 1
+    volumeMounts:
+    - name: seed
+      mountPath: /seed
+  restartPolicy: Never
+  volumes:
+  - name: seed
+    persistentVolumeClaim:
+      claimName: seed
