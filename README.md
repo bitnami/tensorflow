@@ -52,6 +52,7 @@ The inception model will be loaded from the _seed_ PVC using an init container.
 
 ```
 $ kubectl create -f tensorflow.yaml
+$ kubectl expose deployment tensorflow-serving --port=9000
 ```
 
 ## Deploy chart
