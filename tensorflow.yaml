@@ -1,0 +1,32 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: tensorflow-serving
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: tf
+    spec:
+      initContainers:
+      - name: load-model
+        image: skippbox/tensorflow:0.0.1
+        command: ['/serving/bazel-bin/tensorflow_serving/example/inception_saved_model', '--checkpoint_dir=/seed/inception-v3', '--output_dir=/serving/inception-export']
+        volumeMounts:
+        - name: model
+          mountPath: "/serving/inception-export"
+        - name: seed
+          mountPath: "/seed"
+      containers:
+      - name: serving
+        image: skippbox/tensorflow:0.0.1
+        volumeMounts:
+        - name: model
+          mountPath: "/serving/inception-export"
+      volumes:
+      - name: seed
+        persistentVolumeClaim:
+          claimName: seed
+      - name: model
+        emptyDir: {}
