@@ -52,7 +52,21 @@ The inception model will be loaded from the _seed_ PVC using an init container.
 
 ```
 $ kubectl create -f tensorflow.yaml
-$ kubectl expose deployment tensorflow-serving --port=9000
+$ kubectl expose deployment tensorflow-serving --port=9000 --type=NodePort
+```
+
+## Test it
+
+To test tensorflow, you need the inception client that is in the image you just built. Share a volume with the container to get the images available, use a host network to target the service endpoint.
+
+```
+$ docker run --rm -it -v ~/Downloads/:/tmp \
+                      --net=host \
+                      --entrypoint=/bin/bash \
+                      tensorflow
+# bazel-bin/tensorflow_serving/example/inception_client \
+            --server=192.168.99.100:32006 \
+            --image=/tmp/labrador.jpg
 ```
 
 ## Deploy chart
