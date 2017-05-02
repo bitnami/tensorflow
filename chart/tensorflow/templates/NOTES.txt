@@ -1,11 +1,8 @@
-1. Connect to tensorflow inception v3 pod
+Get the port from the service list:
+$ kubectl get svc
+NAME                 CLUSTER-IP   EXTERNAL-IP   PORT(S)          AGE
+tensorflow-serving   10.0.0.233   <nodes>       9000:32725/TCP   5m
 
-$ kubectl get pods
-$ kubectl exec -it inception -- bash
-
-2. Run query versus the server
-
-Download an image and run the query
-
-$ curl -o 'cat-over-keyboard.jpg' 'http://www.rd.com/wp-content/uploads/sites/2/2016/04/01-cat-wants-to-tell-you-laptop.jpg'
-$ bazel-bin/tensorflow_serving/example/inception_client --server=localhost:9000 --image=cat-over-keyboard.jpg
+Test it:
+$ docker run --rm -it -v ~/Downloads/:/tmp/ bitnami/tf-client-slim:0.0.1
+$ bazel-bin/tensorflow_serving/example/inception_client  --server=192.168.99.100:32725 --image=/tmp/labrador-retriever-dog-pictures-6.jpg
