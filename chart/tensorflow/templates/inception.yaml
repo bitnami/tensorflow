@@ -1,7 +1,7 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: tensorflow-serving
+  name: {{ template "fullname" . }}-serving
 spec:
   replicas: 1
   template:
@@ -9,37 +9,17 @@ spec:
       labels:
         app: tf
     spec:
-      initContainers:
-      - name: download-data
-        image: bitnami/minideb-extras:latest
-        command: ["/bin/sh", "-c", "curl -o /seed/inception-v3-2016-03-01.tar.gz http://download.tensorflow.org/models/image/imagenet/inception-v3-2016-03-01.tar.gz && cd /seed/ && tar -xzf inception-v3-2016-03-01.tar.gz && rm inception-v3-2016-03-01.tar.gz"]
-        volumeMounts:
-        - name: model
-          mountPath: "/serving/inception-export"
-        - name: seed
-          mountPath: "/seed"
-      - name: load-model
-        image: bitnami/tf-client-slim:0.0.1
-        command: ['/serving/bazel-bin/tensorflow_serving/example/inception_saved_model', '--checkpoint_dir=/seed/inception-v3', '--output_dir=/serving/inception-export']
-        volumeMounts:
-        - name: model
-          mountPath: "/serving/inception-export"
-        - name: seed
-          mountPath: "/seed"
       containers:
-      - name: serving
+      - name: {{ template "fullname" . }}-serving
         image: bitnami/tf-server-slim:0.0.1
         readinessProbe:
           tcpSocket:
             port: {{ .Values.server.port }}
-          initialDelaySeconds: 15
           timeoutSeconds: 1
         volumeMounts:
-        - name: model
+        - name: seed
           mountPath: "/serving/inception-export"
       volumes:
       - name: seed
         persistentVolumeClaim:
-          claimName: seed
-      - name: model
-        emptyDir: {}
+          claimName: {{ template "fullname" . }}-seed

@@ -5,4 +5,4 @@ tensorflow-serving   10.0.0.233   <nodes>       9000:32725/TCP   5m
 
 Test it:
 $ docker run --rm -it -v ~/Downloads/:/tmp/ bitnami/tf-client-slim:0.0.1
-$ bazel-bin/tensorflow_serving/example/inception_client  --server=192.168.99.100:32725 --image=/tmp/labrador-retriever-dog-pictures-6.jpg
+# bazel-bin/tensorflow_serving/example/inception_client  --server=192.168.99.100:32725 --image=/tmp/labrador-retriever-dog-pictures-6.jpg
