@@ -5,7 +5,7 @@ TensorFlow Serving is an open-source software library for serving machine learni
 ## TL;DR;
 
 ```console
-$ https://github.com/bitnami/tensorflow
+$ git clone https://github.com/bitnami/tensorflow
 $ cd chart
 $ helm install tensorflow/
 ```
