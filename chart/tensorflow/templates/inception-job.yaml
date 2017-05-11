@@ -1,9 +1,10 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: seed-inception
-  labels:
-    release: inception
+  name: {{ template "fullname" . }}-seed-inception
+  annotations:
+    "helm.sh/hook": pre-install
+    "helm.sh/hook-weight": "-4"
 spec:
   template:
     metadata:
@@ -11,9 +12,13 @@ spec:
     spec:
       containers:
       - name: seed
-        image: bitnami/minideb-extras:jessie
+        image: bitnami/tf-client-slim:0.0.2
         command: ["/bin/sh"]
-        args: ["-c", "curl -o /seed/inception-v3-2016-03-01.tar.gz http://download.tensorflow.org/models/image/imagenet/inception-v3-2016-03-01.tar.gz && cd /seed/ && tar -xzf inception-v3-2016-03-01.tar.gz && rm inception-v3-2016-03-01.tar.gz"]
+        args: ["-c", "curl -o /seed/inception-v3-2016-03-01.tar.gz http://download.tensorflow.org/models/image/imagenet/inception-v3-2016-03-01.tar.gz && \
+                      cd /seed/ && tar -xzf inception-v3-2016-03-01.tar.gz && \
+                      rm inception-v3-2016-03-01.tar.gz && \
+                      /serving/bazel-bin/tensorflow_serving/example/inception_saved_model --checkpoint_dir=/seed/inception-v3 --output_dir=/seed && \
+                      rm -rf inception-v3"]
         volumeMounts:
         - name: seed
           mountPath: /seed
@@ -21,4 +26,4 @@ spec:
       volumes:
       - name: seed
         persistentVolumeClaim:
-          claimName: seed
+          claimName: {{ template "fullname" . }}-seed

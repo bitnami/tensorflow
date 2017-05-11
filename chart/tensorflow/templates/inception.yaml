@@ -1,23 +1,25 @@
-apiVersion: v1
-kind: Pod
+apiVersion: extensions/v1beta1
+kind: Deployment
 metadata:
-  name: inception
-  labels:
-    release: inception
+  name: {{ template "fullname" . }}-serving
 spec:
-  containers:
-  - name: seed
-    image: "{{ .Values.image }}"
-    readinessProbe:
-      tcpSocket:
-        port: {{ .Values.serverPort }}
-      initialDelaySeconds: 15
-      timeoutSeconds: 1
-    volumeMounts:
-    - name: seed
-      mountPath: /seed
-  restartPolicy: Never
-  volumes:
-  - name: seed
-    persistentVolumeClaim:
-      claimName: seed
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: tf
+    spec:
+      containers:
+      - name: {{ template "fullname" . }}-serving
+        image: bitnami/tf-server-slim:0.0.1
+        readinessProbe:
+          tcpSocket:
+            port: {{ .Values.server.port }}
+          timeoutSeconds: 1
+        volumeMounts:
+        - name: seed
+          mountPath: "/serving/inception-export"
+      volumes:
+      - name: seed
+        persistentVolumeClaim:
+          claimName: {{ template "fullname" . }}-seed

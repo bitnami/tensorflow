@@ -1,8 +1,15 @@
-## Tensorflow image version
-## ref: https://hub.docker.com/r/tompizmor/tensorflow-inception-v3/tags/
+## Tensorflow server image version
+## ref: https://hub.docker.com/r/bitnami/tf-server-slim/tags/
 ##
-image: tompizmor/tensorflow-inception-v3:latest
-serverPort: 9000
+server:
+  image: bitnami/tf-server-slim:0.0.1
+  port: 9000
+
+## Tensorflow cliet image version
+## ref: https://hub.docker.com/r/bitnami/tf-server-slim/tags/
+##
+client:
+  image: bitnami/tf-client-slim:0.0.1
 
 ## Specify a imagePullPolicy
 ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
@@ -13,12 +20,4 @@ serverPort: 9000
 ## Kubernetes configuration
 ## For minikube, set this to NodePort, elsewhere use LoadBalancer
 ##
-serviceType: LoadBalancer
-
-## Configure resource requests and limits
-## ref: http://kubernetes.io/docs/user-guide/compute-resources/
-##
-resources:
-  requests:
-    memory: 1g
-    cpu: 300m
+serviceType: NodePort

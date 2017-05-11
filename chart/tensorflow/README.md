@@ -5,7 +5,7 @@ TensorFlow Serving is an open-source software library for serving machine learni
 ## TL;DR;
 
 ```console
-$ https://github.com/tompizmor/tensorflow
+$ git clone https://github.com/bitnami/tensorflow
 $ cd chart
 $ helm install tensorflow/
 ```
@@ -26,7 +26,7 @@ Download the latest release of the chart from the [releases](../../../releases) 
 Alternatively, clone the repo if you wish to use the development snapshot:
 
 ```console
-$ git clone https://github.com/tompizmor/tensorflow.git
+$ git clone https://github.com/bitnami/tensorflow.git
 ```
 
 ## Installing the Chart
@@ -64,15 +64,15 @@ The following tables lists the configurable parameters of the TensorFlow Incepti
 
 | Parameter                            | Description                              | Default                                                    |
 | -------------------------------      | -------------------------------          | ---------------------------------------------------------- |
-| `image`                              | Tensorflow image                         | `tompizmor/tensorflow-inception-v3:{VERSION}`              |
+| `server.image`                       | Tensorflow server image                  | `bitnami/tf-server-slim:{VERSION}`                         |
+| `server.port`                        | Tensorflow server port                   | `9000`                                                     |
+| `client.image`                       | Tensorflow client image                  | `bitnami/tf-client-slim:{VERSION}`                         |
 | `imagePullPolicy`                    | Image pull policy                        | `Always` if `image` tag is `latest`, else `IfNotPresent`   |
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example,
 
 ```console
-$ helm install --name my-release \
-  --set serviceType=NodePort \
-    tensorflow/
+$ helm install --name my-release tensorflow/ --set imagePullPolicy=Always
 ```
 
 Alternatively, a YAML file that specifies the values for the above parameters can be provided while installing the chart. For example,

@@ -11,5 +11,5 @@ maintainers:
   name: Bitnami
 name: tensorflow
 sources:
-- https://github.com/tompizmor/tensorflow
+- https://github.com/bitnami/tensorflow
 version: 0.3.4

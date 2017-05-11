@@ -1,9 +1,10 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: seed
-  labels:
-    release: inception
+  name: {{ template "fullname" . }}-seed
+  annotations:
+    "helm.sh/hook": pre-install
+    "helm.sh/hook-weight": "-5"
 spec:
   accessModes:
     - ReadWriteOnce
