@@ -47,7 +47,7 @@ total 424724
 
 ## Launch Deployment
 
-This will create a deployment of Pods that will serve the model.
+This will create a deployment of Pods that will serve the model. Get the pod IP address before testing it
 The inception model will be loaded from the _seed_ PVC using an init container.
 
 ```
@@ -65,7 +65,7 @@ $ docker run --rm -it -v ~/Downloads/:/tmp \
                       --entrypoint=/bin/bash \
                       tensorflow
 # bazel-bin/tensorflow_serving/example/inception_client \
-            --server=192.168.99.100:32006 \
+            --server=<pod-IP-address>:9000 \
             --image=/tmp/labrador.jpg
 ```
 
